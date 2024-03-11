@@ -206,7 +206,7 @@ namespace LLMUnity
 #if UNITY_EDITOR
         public async void SetGrammar(string path)
         {
-            grammar = await LLMUnitySetup.AddAsset(path, LLMUnitySetup.GetAssetPath());
+            grammar = await LLMUnitySetup.AddAsset(path);
         }
 
 #endif

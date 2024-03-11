@@ -76,7 +76,7 @@ namespace LLMUnity
         public static string GetAssetPath(string relPath = "")
         {
             // Path to store llm server binaries and models
-            return Path.Combine(Application.streamingAssetsPath, relPath).Replace('\\', '/');
+            return Path.Combine(Application.streamingAssetsPath, "LLMUnity", relPath).Replace('\\', '/');
         }
 
 #if UNITY_EDITOR
@@ -135,7 +135,7 @@ namespace LLMUnity
             callback?.Invoke(savePath);
         }
 
-        public static async Task<string> AddAsset(string assetPath, string basePath)
+        public static async Task<string> AddAsset(string assetPath)
         {
             if (!File.Exists(assetPath))
             {
@@ -143,13 +143,13 @@ namespace LLMUnity
                 return null;
             }
             // add an asset to the basePath directory if it is not already there and return the relative path
-            string basePathSlash = basePath.Replace('\\', '/');
             string fullPath = Path.GetFullPath(assetPath).Replace('\\', '/');
-            Directory.CreateDirectory(basePathSlash);
-            if (!fullPath.StartsWith(basePathSlash))
+            string basePath = GetAssetPath();
+            Directory.CreateDirectory(basePath);
+            if (!fullPath.StartsWith(basePath))
             {
                 // if the asset is not in the assets dir copy it over
-                fullPath = Path.Combine(basePathSlash, Path.GetFileName(assetPath));
+                fullPath = GetAssetPath(Path.GetFileName(assetPath));
                 Debug.Log($"copying {assetPath} to {fullPath}");
                 AssetDatabase.StartAssetEditing();
                 await Task.Run(() =>
@@ -164,7 +164,7 @@ namespace LLMUnity
                 AssetDatabase.StopAssetEditing();
                 Debug.Log("copying complete!");
             }
-            return fullPath.Substring(basePathSlash.Length + 1);
+            return fullPath.Substring(basePath.Length + 1);
         }
 
 #endif

@@ -123,7 +123,7 @@ namespace LLMUnity
         {
             // set the model and enable the model editor properties
             modelCopyProgress = 0;
-            model = await LLMUnitySetup.AddAsset(path, LLMUnitySetup.GetAssetPath());
+            model = await LLMUnitySetup.AddAsset(path);
             SetTemplate(ChatTemplate.FromGGUF(path));
             EditorUtility.SetDirty(this);
             modelCopyProgress = 1;
@@ -143,7 +143,7 @@ namespace LLMUnity
         {
             // set the lora and enable the model editor properties
             modelCopyProgress = 0;
-            lora = await LLMUnitySetup.AddAsset(path, LLMUnitySetup.GetAssetPath());
+            lora = await LLMUnitySetup.AddAsset(path);
             EditorUtility.SetDirty(this);
             modelCopyProgress = 1;
         }
