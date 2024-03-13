@@ -13,7 +13,7 @@ jobs:
       - name: chmod
         run: chmod -R a+rwx llamafile
       - name: download model
-        run: curl -L -o model.gguf https://huggingface.co/afrideva/smol_llama-220M-openhermes-GGUF/resolve/main/smol_llama-220m-openhermes.q4_k_m.gguf?download=true
+        run: curl -L -o model.gguf https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true
       - name: run command
         run: sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0"
         timeout-minutes: 1
