@@ -1,0 +1,19 @@
+name: test_mac
+on: push
+jobs: 
+  build:
+    runs-on: macos-13-xlarge
+    steps: 
+      - name: uname
+        run: uname -m
+      - name: download llamafile
+        run: curl -L -o llamafile-0.6.2.zip https://github.com/Mozilla-Ocho/llamafile/releases/download/0.6.2/llamafile-0.6.2.zip
+      - name: unzip llamafile 
+        run: unzip llamafile-0.6.2.zip -d llamafile
+      - name: chmod
+        run: chmod -R a+rwx llamafile
+      - name: download model
+        run: curl -L -o model.gguf https://huggingface.co/afrideva/smol_llama-220M-openhermes-GGUF/resolve/main/smol_llama-220m-openhermes.q4_k_m.gguf?download=true
+      - name: run command
+        run: sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser"
+        timeout-minutes: 1
