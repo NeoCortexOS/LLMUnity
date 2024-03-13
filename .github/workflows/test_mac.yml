@@ -2,7 +2,7 @@ name: test_mac
 on: push
 jobs: 
   build:
-    runs-on: macos-11
+    runs-on: macos-13-xlarge
     steps: 
       - name: uname
         run: uname -m
@@ -15,5 +15,5 @@ jobs:
       - name: download model
         run: curl -L -o model.gguf https://huggingface.co/afrideva/smol_llama-220M-openhermes-GGUF/resolve/main/smol_llama-220m-openhermes.q4_k_m.gguf?download=true
       - name: run command
-        run: sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser"
+        run: sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0"
         timeout-minutes: 1
