@@ -15,5 +15,5 @@ jobs:
       - name: download model
         run: curl -L -o model.gguf https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true
       - name: run command
-        run: sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu DISABLE"
+        run: sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu -1"
         timeout-minutes: 1
