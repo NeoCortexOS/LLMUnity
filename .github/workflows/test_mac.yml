@@ -2,7 +2,7 @@ name: test_mac
 on: push
 jobs: 
   build:
-    runs-on: macos-11
+    runs-on: macos-13
     steps: 
       - name: uname
         run: uname -m
