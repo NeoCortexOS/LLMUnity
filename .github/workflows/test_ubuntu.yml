@@ -1,5 +1,8 @@
 name: test_ubuntu
-on: push
+on: 
+    # push
+    pull_request:
+      types: [closed]
 jobs: 
   build:
     runs-on: ubuntu-latest
