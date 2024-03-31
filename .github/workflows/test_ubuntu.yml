@@ -22,11 +22,13 @@ jobs:
         run: chmod -R a+rwx llamafile
       - name: download model
         run: curl -L -o model.gguf https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true
-        
+      - name: download elf
+        run: curl -L -o ape-x86_64.elf https://cosmo.zip/pub/cosmos/bin/ape-x86_64.elf
+
       - name: run command
         run: |
-          chmod +x llamafile/llamafile-0.6.2/bin/llamafile
-          ./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
+          chmod +x ape-x86_64.elf
+          ./ape-x86_64.elf llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
           sleep 5
           netstat -lan -p tcp|grep LISTEN|grep tcp
           echo "-----------------"
