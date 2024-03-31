@@ -6,6 +6,10 @@ jobs:
     steps: 
       - name: uname
         run: uname -m
+      - name: Install Mono
+        run: brew install mono
+      - name: Compile C# Program
+        run: mcs TCPConnections~/TCPConnections.cs
       - name: download llamafile
         run: curl -L -o llamafile-0.6.2.zip https://github.com/Mozilla-Ocho/llamafile/releases/download/0.6.2/llamafile-0.6.2.zip
       - name: unzip llamafile 
@@ -17,6 +21,8 @@ jobs:
       - name: run command
         run: |
           sh -c "./llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no" &
-          sleep 10
+          sleep 5
           netstat -lan -p tcp|grep LISTEN|grep tcp
+          echo "-----------------"
+          TCPConnections~/TCPConnections.exe
         timeout-minutes: 1
