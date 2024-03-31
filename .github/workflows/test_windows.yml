@@ -1,0 +1,35 @@
+name: test_windows
+on: 
+    push
+jobs: 
+  build:
+    runs-on: windows-latest
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # - name: Install Mono
+      #   run: brew install mono
+      - name: Compile C# Program
+        run: csc /out:YourProgram.exe YourProgram.cs
+
+      - name: Install curl
+        run: choco install curl -y
+      - name: Install unzip
+        run: choco install unzip -y
+
+      - name: download llamafile
+        run: curl -L -o llamafile-0.6.2.zip https://github.com/Mozilla-Ocho/llamafile/releases/download/0.6.2/llamafile-0.6.2.zip
+      - name: unzip llamafile 
+        run: unzip llamafile-0.6.2.zip -d llamafile
+      - name: chmod
+        run: chmod -R a+rwx llamafile
+      - name: download model
+        run: curl -L -o model.gguf https://huggingface.co/TheBloke/phi-2-GGUF/resolve/main/phi-2.Q4_K_M.gguf?download=true
+
+      - name: run command
+        run: |
+          llamafile/llamafile-0.6.2/bin/llamafile.exe --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
+          sleep 5
+          TCPConnections~/TCPConnections.exe
+        timeout-minutes: 1
