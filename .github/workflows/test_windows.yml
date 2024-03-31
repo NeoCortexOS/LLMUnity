@@ -16,7 +16,7 @@ jobs:
         run: choco install mono -y
 
       - name: Compile C# Program
-        run: csc /out:YourProgram.exe YourProgram.cs
+        run: mcs /out:YourProgram.exe YourProgram.cs
 
 
       - name: download llamafile
