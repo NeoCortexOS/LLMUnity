@@ -16,7 +16,7 @@ jobs:
         run: choco install mono -y
 
       - name: Compile C# Program
-        run: mcs /out:YourProgram.exe YourProgram.cs
+        run: msbuild TCPConnections~/TCPConnections~.csproj /p:Configuration=Release
 
 
       - name: download llamafile
@@ -32,5 +32,5 @@ jobs:
         run: |
           llamafile/llamafile-0.6.2/bin/llamafile.exe --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
           sleep 5
-          TCPConnections~/TCPConnections.exe
+          TCPConnections~/bin/Release/*/TCPConnections~.exe
         timeout-minutes: 1
