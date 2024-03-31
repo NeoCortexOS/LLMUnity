@@ -30,5 +30,5 @@ jobs:
           netstat -lan -p tcp|grep LISTEN|grep tcp
           echo "-----------------"
           chmod +x TCPConnections~/TCPConnections.exe
-          ./TCPConnections~/TCPConnections.exe
+          mono TCPConnections~/TCPConnections.exe
         timeout-minutes: 1
