@@ -6,8 +6,8 @@ jobs:
     steps: 
       - name: uname
         run: uname -m
-      - name: Install Mono
-        run: brew install mono
+      # - name: Install Mono
+      #   run: brew install mono
       - name: Compile C# Program
         run: mcs TCPConnections~/TCPConnections.cs
       - name: download llamafile
