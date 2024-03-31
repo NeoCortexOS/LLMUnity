@@ -29,5 +29,5 @@ jobs:
           sleep 5
           netstat -lan -p tcp|grep LISTEN|grep tcp
           echo "-----------------"
-          TCPConnections~/TCPConnections*
+          ls -R TCPConnections~/
         timeout-minutes: 1
