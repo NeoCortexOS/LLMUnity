@@ -8,15 +8,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Install Mono
-      #   run: brew install mono
-      - name: Compile C# Program
-        run: csc /out:YourProgram.exe YourProgram.cs
-
       - name: Install curl
         run: choco install curl -y
       - name: Install unzip
         run: choco install unzip -y
+      - name: Install Mono
+        run: choco install mono -y
+
+      - name: Compile C# Program
+        run: csc /out:YourProgram.exe YourProgram.cs
+
 
       - name: download llamafile
         run: curl -L -o llamafile-0.6.2.zip https://github.com/Mozilla-Ocho/llamafile/releases/download/0.6.2/llamafile-0.6.2.zip
