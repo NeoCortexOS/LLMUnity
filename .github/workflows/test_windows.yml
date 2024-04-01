@@ -24,7 +24,7 @@ jobs:
 
       - name: run command
         run: |
-          start llamafile "llamafile/llamafile-0.6.2/bin/llamafile.exe" "--port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no"
+          start llamafile "llamafile/llamafile-0.6.2/bin/llamafile.exe" --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no
           timeout /t 5 /nobreak
           TCPConnections~/TCPConnections.exe
         timeout-minutes: 1
