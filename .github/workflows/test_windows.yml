@@ -25,6 +25,6 @@ jobs:
       - name: run command
         run: |
           llamafile/llamafile-0.6.2/bin/llamafile.exe --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
-          sleep 5
+          timeout /t 5 /nobreak
           TCPConnections~/TCPConnections.exe
         timeout-minutes: 1
