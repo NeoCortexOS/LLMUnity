@@ -12,12 +12,6 @@ jobs:
         run: choco install curl -y
       - name: Install unzip
         run: choco install unzip -y
-      - name: Install Mono
-        run: choco install mono -y
-
-      - name: Compile C# Program
-        run: msbuild TCPConnections~/TCPConnections~.csproj /p:Configuration=Release
-
 
       - name: download llamafile
         run: curl -L -o llamafile-0.6.2.zip https://github.com/Mozilla-Ocho/llamafile/releases/download/0.6.2/llamafile-0.6.2.zip
@@ -32,5 +26,5 @@ jobs:
         run: |
           llamafile/llamafile-0.6.2/bin/llamafile.exe --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
           sleep 5
-          TCPConnections~/bin/Release/*/TCPConnections~.exe
+          TCPConnections~/TCPConnections~.exe
         timeout-minutes: 1
