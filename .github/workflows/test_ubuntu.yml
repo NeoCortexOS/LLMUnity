@@ -33,7 +33,7 @@ jobs:
           chmod +x ape-x86_64.elf
           ./ape-x86_64.elf llamafile/llamafile-0.6.2/bin/llamafile --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no &
           sleep 5
-          netstat -lan -p tcp|grep LISTEN|grep tcp
+          netstat -an -p tcp|grep LISTEN|grep tcp
           echo "-----------------"
           chmod +x TCPConnections~/TCPConnections.exe
           ./TCPConnections~/TCPConnections.exe
