@@ -26,6 +26,6 @@ jobs:
         run: |
           copy llamafile/llamafile-0.6.2/bin/llamafile llamafile/llamafile-0.6.2/bin/llamafile.exe
           cmd /c "start /b llamafile/llamafile-0.6.2/bin/llamafile.exe --port 13333 -m model.gguf --log-disable --nobrowser -ngl 0 --gpu no"
-          timeout /t 5 /nobreak
+          cmd /c "timeout /t 5 /nobreak"
           TCPConnections~/TCPConnections.exe
         timeout-minutes: 1
