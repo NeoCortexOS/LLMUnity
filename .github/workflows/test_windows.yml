@@ -8,6 +8,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+
+      - name: check
+        run: start /?
       - name: Install curl
         run: choco install curl -y
       - name: Install unzip
