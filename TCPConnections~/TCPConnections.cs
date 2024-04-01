@@ -37,7 +37,6 @@ class Program
             TcpConnectionInformation[] tcpConnections = ipProperties.GetActiveTcpConnections();
             foreach (TcpConnectionInformation info in tcpConnections)
             {
-                Console.WriteLine($"{info.LocalEndPoint.Address}:{info.LocalEndPoint.Port} {info.RemoteEndPoint.Address}:{info.RemoteEndPoint.Port} {info.State}");
                 if (info.LocalEndPoint.Port == port && info.RemoteEndPoint.Port == 0) num++;
             }
         }
@@ -50,12 +49,11 @@ class Program
         int num = 0;
         try
         {
-            string netstatOutput = RunProcess("netstat", "-lan -p tcp");
-            Regex regex = new Regex(@"^tcp.*?[:.](?<LocalPort>\d+)\b\s.*\bLISTEN\b", RegexOptions.Multiline);
+            string netstatOutput = RunProcess("netstat", "-an -p tcp");
+            Regex regex = new Regex(@"^.*(?i:tcp).*?[:.](?<LocalPort>\d+)\b\s.*\bLISTEN[ING]*\b", RegexOptions.Multiline);
             MatchCollection matches = regex.Matches(netstatOutput);
             foreach (Match match in matches)
             {
-                Console.WriteLine(match);
                 if (int.Parse(match.Groups["LocalPort"].Value) == port) num++;
             }
         }
@@ -66,8 +64,9 @@ class Program
     static void Main(string[] args)
     {
         int port = 13333;
-        int num = NumServersForPortProperties(port);
-        if (num == -1) num = NumServersForPortNetstat(port);
+        int num = NumServersForPortNetstat(port);
+        Console.WriteLine(num);
+        if (num == -1) num = NumServersForPortProperties(port);
         Console.WriteLine(num);
     }
 }
