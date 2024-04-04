@@ -88,9 +88,10 @@ namespace LLMUnitySamples
             chatBubbles.Add(aiBubble);
             playerBubble.OnResize(UpdateBubblePositions);
             aiBubble.OnResize(UpdateBubblePositions);
-
-            Task chatTask = llm.Chat(message, aiBubble.SetText, AllowInput);
             inputBubble.SetText("");
+
+            // call LLM
+            Task chatTask = llm.Chat(message, aiBubble.SetText, AllowInput);
         }
 
         public void WarmUpCallback()
