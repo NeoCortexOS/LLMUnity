@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LLMUnity;
+using UnityEngine.UI;
+using System.Collections;
 
 namespace LLMUnitySamples
 {
@@ -14,7 +16,7 @@ namespace LLMUnitySamples
         public Font font;
         public int fontSize = 16;
         public int bubbleWidth = 600;
-        public LLMClient llm;
+        public LLM llm;
         public float textPadding = 10f;
         public float bubbleSpacing = 10f;
         public Sprite sprite;
@@ -22,9 +24,11 @@ namespace LLMUnitySamples
         private InputBubble inputBubble;
         private List<Bubble> chatBubbles = new List<Bubble>();
         private bool blockInput = true;
-        private BubbleUI playerUI, aiUI;
+        private BubbleUI playerUI, aiUI, inputUI;
         private bool warmUpDone = false;
         private int lastBubbleOutsideFOV = -1;
+        public GameObject LoadingScreen;
+        public Text LoadingText;
 
         void Start()
         {
@@ -46,11 +50,23 @@ namespace LLMUnitySamples
             aiUI = playerUI;
             aiUI.bubbleColor = aiColor;
             aiUI.leftPosition = 1;
+            inputUI = playerUI;
+            inputUI.bubbleHeight = 180;
 
-            inputBubble = new InputBubble(chatContainer, playerUI, "InputBubble", "Loading...", 4);
-            inputBubble.AddSubmitListener(onInputFieldSubmit);
-            inputBubble.AddValueChangedListener(onValueChanged);
-            inputBubble.setInteractable(false);
+            StartCoroutine(Loading());
+        }
+
+        IEnumerator Loading()
+        {
+            LoadingText.text = "Starting server...";
+            LoadingScreen.gameObject.SetActive(true);
+            // wait until server is up
+            while (!llm.serverStarted)
+            {
+                yield return null;
+            }
+            //warm-up the model
+            LoadingText.text = "Warming-up the model...";
             _ = llm.Warmup(WarmUpCallback);
         }
 
@@ -79,9 +95,18 @@ namespace LLMUnitySamples
 
         public void WarmUpCallback()
         {
+            LoadingScreen.gameObject.SetActive(false);
             warmUpDone = true;
-            inputBubble.SetPlaceHolderText("Message me");
+            CreateInputBubble();
             AllowInput();
+        }
+
+        public void CreateInputBubble()
+        {
+            inputBubble = new InputBubble(chatContainer, inputUI, "InputBubble", "Loading...", 4);
+            inputBubble.AddSubmitListener(onInputFieldSubmit);
+            inputBubble.AddValueChangedListener(onValueChanged);
+            inputBubble.SetPlaceHolderText("Message me");
         }
 
         public void AllowInput()
@@ -96,7 +121,7 @@ namespace LLMUnitySamples
             AllowInput();
         }
 
-        IEnumerator<string> BlockInteraction()
+        IEnumerator BlockInteraction()
         {
             // prevent from change until next frame
             inputBubble.setInteractable(false);
@@ -137,7 +162,7 @@ namespace LLMUnitySamples
 
         void Update()
         {
-            if (!inputBubble.inputFocused() && warmUpDone)
+            if (inputBubble != null && !inputBubble.inputFocused() && warmUpDone)
             {
                 inputBubble.ActivateInputField();
                 StartCoroutine(BlockInteraction());

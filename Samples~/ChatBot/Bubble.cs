@@ -169,11 +169,12 @@ namespace LLMUnitySamples
         protected GameObject placeholderObject;
 
         public InputBubble(Transform parent, BubbleUI ui, string name, string message, int lineHeight = 4) :
-        base(parent, ui, name, emptyLines(message, lineHeight))
+            base(parent, ui, name, emptyLines(message, lineHeight))
         {
             Text textObjext = bubbleObject.GetComponent<Text>();
             RectTransform bubbleRectTransform = bubbleObject.GetComponent<RectTransform>();
-            bubbleObject.GetComponent<ContentSizeFitter>().enabled = false;
+            ContentSizeFitter sizeFitter = bubbleObject.GetComponent<ContentSizeFitter>();
+            if (sizeFitter != null) sizeFitter.enabled = false;
             placeholderObject = CreatePlaceholderObject(bubbleObject.transform, bubbleRectTransform, textObjext.text);
             inputFieldObject = CreateInputFieldObject(bubbleObject.transform, textObjext, placeholderObject.GetComponent<Text>());
             inputField = inputFieldObject.GetComponent<InputField>();
@@ -289,5 +290,4 @@ namespace LLMUnitySamples
             inputField.ActivateInputField();
         }
     }
-
 }
