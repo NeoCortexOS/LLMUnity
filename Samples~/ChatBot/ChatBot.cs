@@ -25,6 +25,7 @@ namespace LLMUnitySamples
         private BubbleUI playerUI, aiUI;
         private bool warmUpDone = false;
         private int lastBubbleOutsideFOV = -1;
+        bool replyReceived = false;
 
         void Start()
         {
@@ -73,7 +74,7 @@ namespace LLMUnitySamples
             playerBubble.OnResize(UpdateBubblePositions);
             aiBubble.OnResize(UpdateBubblePositions);
 
-            Task chatTask = llm.Chat(message, aiBubble.SetText, AllowInput);
+            Task chatTask = llm.Chat(message, SetReply(aiBubble), AllowInput);
             inputBubble.SetText("");
         }
 
@@ -94,6 +95,31 @@ namespace LLMUnitySamples
         {
             llm.CancelRequests();
             AllowInput();
+        }
+
+        Callback<string> SetReply(Bubble aiBubble)
+        {
+            void OnReply(string reply)
+            {
+                replyReceived = true;
+                aiBubble.SetText(reply);
+            }
+
+            replyReceived = false;
+            StartCoroutine(WaitingForReply(aiBubble));
+            return OnReply;
+        }
+
+        IEnumerator<WaitForSeconds> WaitingForReply(Bubble aiBubble)
+        {
+            string waiting = ".";
+            while (!replyReceived)
+            {
+                if (waiting.Length == 3) waiting = "";
+                waiting += ".";
+                aiBubble.SetText(waiting);
+                yield return new WaitForSeconds(0.5f);
+            }
         }
 
         IEnumerator<string> BlockInteraction()
