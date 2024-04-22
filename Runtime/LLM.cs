@@ -382,6 +382,7 @@ namespace LLMUnity
             string GPUArgument = numGPULayers <= 0 ? noGPUArgument : $" -ngl {numGPULayers}";
             LLMUnitySetup.makeExecutable(server);
 
+            serverBlock.Reset();
             RunServerCommand(server, arguments + GPUArgument);
             if (asynchronousStartup) await WaitOneASync(serverBlock, TimeSpan.FromSeconds(60));
             else serverBlock.WaitOne(60000);
@@ -417,6 +418,8 @@ namespace LLMUnity
         public void StopProcess()
         {
             // kill the llm server
+            serverListening = false;
+            serverStarted = false;
             if (process != null)
             {
                 int pid = process.Id;
